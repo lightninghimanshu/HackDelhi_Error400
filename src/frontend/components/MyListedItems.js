@@ -38,7 +38,9 @@ export default function MyListedItems({ marketplace, nft, account }) {
         const uri = await nft.tokenURI(i.tokenId)
         // use uri to fetch the nft metadata stored on ipfs 
         const response = await fetch(uri)
-        const metadata = await response.json()
+        console.log(response);
+        const metadata =  await response.json()
+
         // get total price of item (item price + fee)
         const totalPrice = await marketplace.getTotalPrice(i.itemId)
         // define listed item object
@@ -46,9 +48,9 @@ export default function MyListedItems({ marketplace, nft, account }) {
           totalPrice,
           price: i.price,
           itemId: i.itemId,
-          name: metadata.name,
-          description: metadata.description,
-          image: metadata.image
+          name: await metadata.name,
+          description: await metadata.description,
+          image:await metadata.image
         }
         listedItems.push(item)
         // Add listed item to sold items array if sold
@@ -76,6 +78,7 @@ export default function MyListedItems({ marketplace, nft, account }) {
             {listedItems.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
                 <Card>
+                  <Card.Header variant="top"> {item.name}</Card.Header>
                   <Card.Img variant="top" src={item.image} />
                   <Card.Footer>{ethers.utils.formatEther(item.totalPrice)} ETH</Card.Footer>
                 </Card>

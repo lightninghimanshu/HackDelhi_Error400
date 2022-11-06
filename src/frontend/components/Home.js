@@ -16,6 +16,7 @@ const Home = ({ marketplace, nft }) => {
         const uri = await nft.tokenURI(item.tokenId)
         // use uri to fetch the nft metadata stored on ipfs 
         const response = await fetch(uri)
+        // console.log(response);
         const metadata = await response.json()
         // get total price of item (item price + fee)
         const totalPrice = await marketplace.getTotalPrice(item.itemId)
@@ -24,9 +25,9 @@ const Home = ({ marketplace, nft }) => {
           totalPrice,
           itemId: item.itemId,
           seller: item.seller,
-          name: metadata.name,
-          description: metadata.description,
-          image: metadata.image
+          name: await metadata.name,
+          description: await metadata.description,
+          image: await metadata.image
         })
       }
     }

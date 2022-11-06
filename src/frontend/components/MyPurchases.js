@@ -25,9 +25,10 @@ export default function MyPurchases({ marketplace, nft, account }) {
         totalPrice,
         price: i.price,
         itemId: i.itemId,
-        name: metadata.name,
-        description: metadata.description,
-        image: metadata.image
+        name: await metadata.name,
+        description: await metadata.description,
+        image: await metadata.image,
+        torrent : await metadata.torrent
       }
       return purchasedItem
     }))
@@ -51,6 +52,7 @@ export default function MyPurchases({ marketplace, nft, account }) {
               <Col key={idx} className="overflow-hidden">
                 <Card>
                   <Card.Img variant="top" src={item.image} />
+                  <Card.Text variant ="bottom">{item.torrent}</Card.Text>
                   <Card.Footer>{ethers.utils.formatEther(item.totalPrice)} ETH</Card.Footer>
                 </Card>
               </Col>
