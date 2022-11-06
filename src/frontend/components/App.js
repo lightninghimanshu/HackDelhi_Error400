@@ -12,7 +12,7 @@ import MarketplaceAbi from '../contractsData/Marketplace.json'
 import MarketplaceAddress from '../contractsData/Marketplace-address.json'
 import NFTAbi from '../contractsData/NFT.json'
 import NFTAddress from '../contractsData/NFT-address.json'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ethers } from "ethers"
 import { Spinner } from 'react-bootstrap'
 
@@ -41,6 +41,8 @@ function App() {
       await web3Handler()
     })
     loadContracts(signer)
+    
+
   }
   const loadContracts = async (signer) => {
     // Get deployed copies of contracts
@@ -50,6 +52,8 @@ function App() {
     setNFT(nft)
     setLoading(false)
   }
+
+  
 
   return (
     <BrowserRouter>
@@ -66,7 +70,7 @@ function App() {
           ) : (
             <Routes>
               <Route path="/" element={
-                <Home marketplace={marketplace} nft={nft} />
+                <Home marketplace={marketplace} nft={nft} account={account}/>
               } />
               <Route path="/create" element={
                 <Create marketplace={marketplace} nft={nft} />

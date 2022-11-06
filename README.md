@@ -1,27 +1,9 @@
-# NFT Marketplace
-
-## Technology Stack & Tools
-
-- Solidity (Writing Smart Contract)
-- Javascript (React & Testing)
-- [Ethers](https://docs.ethers.io/v5/) (Blockchain Interaction)
-- [Hardhat](https://hardhat.org/) (Development Framework)
-- [Ipfs](https://ipfs.io/) (Metadata storage)
-- [React routers](https://v5.reactrouter.com/) (Navigational components)
-
-## Requirements For Initial Setup
-- Install [NodeJS](https://nodejs.org/en/), should work with any node version below 16.5.0
-- Install [Hardhat](https://hardhat.org/)
-
-## Setting Up
-### 1. Clone/Download the Repository
-
-### 2. Install Dependencies:
+### 1. Install Dependencies:
 ```
 $ cd nft_marketplace
 $ npm install
 ```
-### 3. Boot up local development blockchain
+### 2. Boot up local development blockchain
 ```
 $ cd nft_marketplace
 $ npx hardhat node
@@ -34,7 +16,8 @@ $ npx hardhat node
 
 
 ### 5. Migrate Smart Contracts
-`npx hardhat run src/backend/scripts/deploy.js --network localhost`
+<!-- `npx hardhat run src/backend/scripts/deploy.js --network localhost` -->
+`npx hardhat run src/backend/scripts/deploy.js --network mumbai`
 
 ### 6. Run Tests
 `$ npx hardhat test`

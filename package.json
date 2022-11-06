@@ -52,5 +52,10 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.11"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

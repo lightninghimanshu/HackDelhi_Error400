@@ -89,6 +89,11 @@ export default function MyListedItems({ marketplace, nft, account }) {
         </div>
         : (
           <main style={{ padding: "1rem 0" }}>
+            <img src={
+              require('../../asset/undraw_void_3ggu.png')
+            } alt="No items found" 
+            style={{ width: "30%", height: "30%" }}
+            />
             <h2>No listed assets</h2>
           </main>
         )}

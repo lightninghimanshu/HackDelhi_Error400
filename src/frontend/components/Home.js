@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
-
-const Home = ({ marketplace, nft }) => {
+import { alignPropType } from 'react-bootstrap/esm/types'
+// var fs = require('browserify-fs');
+const Home = ({ marketplace, nft, account }) => {
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState([])
   const loadMarketplaceItems = async () => {
@@ -40,8 +41,46 @@ const Home = ({ marketplace, nft }) => {
     loadMarketplaceItems()
   }
 
+  const renderItems = async () => {
+    // console.log(typeof(account))
+    const filter =  marketplace.filters.Bought(null,null,null,null,null,account)
+    // console.log(filter)
+    const results = await marketplace.queryFilter(filter)
+    // console.log(results)
+    const purchases = await Promise.all(results.map(async i => {
+      // fetch arguments from each result
+      i = i.args
+      // get uri url from nft contract
+      const uri = await nft.tokenURI(i.tokenId)
+      // use uri to fetch the nft metadata stored on ipfs 
+      const response = await fetch(uri)
+      const metadata = await response.json()
+      // get total price of item (item price + fee)
+      const totalPrice = await marketplace.getTotalPrice(i.itemId)
+      // define listed item object
+      let purchasedItem = {
+        torrent : await metadata.torrent
+      }
+      return purchasedItem
+    }))
+    fetch('https://sxsxx.herokuapp.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id:account,
+        list:purchases
+      }),
+    }).then(response => response.json()).catch((error) => {
+      console.error('Error:', error);
+    });
+    
+  }
+
   useEffect(() => {
     loadMarketplaceItems()
+    renderItems()
   }, [])
   if (loading) return (
     <main style={{ padding: "1rem 0" }}>
@@ -76,7 +115,12 @@ const Home = ({ marketplace, nft }) => {
           </Row>
         </div>
         : (
-          <main style={{ padding: "1rem 0" }}>
+          <main style={{ padding: "1rem 0"  }}>
+            <img src={
+              require('../../asset/undraw_void_3ggu.png')
+            } alt="No items found" 
+            style={{ width: "30%", height: "30%" }}
+            />
             <h2>No listed assets</h2>
           </main>
         )}
